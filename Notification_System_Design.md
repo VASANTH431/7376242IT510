@@ -49,8 +49,20 @@ If the volume of notifications grows significantly (thousands of unread items), 
 1. **Incremental Updates**: Using a **Min-Heap** of size $N$ to track the top $N$ items. When a new notification arrives, if its priority is higher than the heap's root (the $N$-th item), we replace the root and heapify. This reduces complexity to $O(\log N)$ per new notification.
 2. **Server-Side Indexing**: For truly massive scales, the database would maintain a priority index (Category ID, Timestamp) to allow $O(N)$ retrieval.
 
-## 4. User Experience (UX)
-- **Visual Distinction**: Each notification type has a distinct color code (Gold for Placement, Green for Result, Blue for Event).
-- **Glassmorphism Design**: A modern, premium look with subtle animations and transparency.
-- **Dynamic Control**: Users can adjust 'n' (Top 5, 10, 15, 20) dynamically, and the inbox updates in real-time.
-- **Read/Unread State**: Marking a notification as "Read" immediately removes it from the Priority Inbox, making room for the next most important unread alert.
+## 5. Multi-Page Architecture
+The application is now a multi-page experience using `react-router-dom`:
+- **Priority Page (`/`)**: Focuses on the most critical unread alerts.
+- **All Notifications Page (`/all`)**: Provides a comprehensive view with advanced filtering and pagination.
+
+## 6. Advanced Filtering & Pagination
+To ensure a production-grade experience, the "All Notifications" page implements:
+- **Query Parameter Synchronization**: The state of the UI (`page`, `limit`, `notification_type`) is synchronized with the browser's URL. This allows users to bookmark specific filtered views.
+- **Filter Bar**: Quick access to filter by `Placement`, `Result`, or `Event`.
+- **Client-Side Pagination**: Efficiently slices the filtered dataset to maintain performance and avoid page clutter.
+
+## 7. User Experience (UX) Enhancements
+- **Read/Unread Distinction**: 
+  - **New Alerts**: Highlighted with a "NEW" badge and vibrant styling.
+  - **Read Alerts**: Subtly dimmed (opacity reduction) to draw focus to unread items, while remaining accessible for reference.
+- **Navigation**: A persistent Navbar allows seamless switching between priority and general views.
+- **Typography**: Uses **Poppins** for hierarchy and **Inter** for readability, consistent with the user's personal brand.
