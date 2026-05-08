@@ -9,11 +9,21 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchNotifications = async () => {
+  const loadMockData = React.useCallback(() => {
+    const initialData = [
+      { id: '1', type: 'event', title: 'Campus Workshop', content: 'Join us for a React workshop tomorrow.', timestamp: Date.now() - 100000, isRead: false },
+      { id: '2', type: 'result', title: 'Midterm Results', content: 'Your CS101 results are out.', timestamp: Date.now() - 50000, isRead: false },
+      { id: '3', type: 'placement', title: 'Google Interview', content: 'Congrats! You are shortlisted for the interview.', timestamp: Date.now() - 200000, isRead: false },
+      { id: '4', type: 'event', title: 'Football Match', content: 'Finals this weekend at the stadium.', timestamp: Date.now() - 300000, isRead: false },
+      { id: '5', type: 'placement', title: 'Adobe Career Fair', content: 'Check out the new openings at Adobe.', timestamp: Date.now() - 10000, isRead: false },
+    ];
+    setNotifications(initialData);
+  }, []);
+
+  const fetchNotifications = React.useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      // Use proxy or direct fetch if allowed
       const response = await fetch('http://4.224.186.213/evaluation-service/notifications');
       if (!response.ok) throw new Error('Failed to fetch notifications');
       const data = await response.json();
@@ -35,22 +45,11 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const loadMockData = () => {
-    const initialData = [
-      { id: '1', type: 'event', title: 'Campus Workshop', content: 'Join us for a React workshop tomorrow.', timestamp: Date.now() - 100000, isRead: false },
-      { id: '2', type: 'result', title: 'Midterm Results', content: 'Your CS101 results are out.', timestamp: Date.now() - 50000, isRead: false },
-      { id: '3', type: 'placement', title: 'Google Interview', content: 'Congrats! You are shortlisted for the interview.', timestamp: Date.now() - 200000, isRead: false },
-      { id: '4', type: 'event', title: 'Football Match', content: 'Finals this weekend at the stadium.', timestamp: Date.now() - 300000, isRead: false },
-      { id: '5', type: 'placement', title: 'Adobe Career Fair', content: 'Check out the new openings at Adobe.', timestamp: Date.now() - 10000, isRead: false },
-    ];
-    setNotifications(initialData);
-  };
+  }, [loadMockData]);
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [fetchNotifications]);
 
   const addRandomNotification = () => {
     const types = ['placement', 'result', 'event'];
