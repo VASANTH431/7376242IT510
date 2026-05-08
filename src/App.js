@@ -28,13 +28,15 @@ function App() {
       if (!response.ok) throw new Error('Failed to fetch notifications');
       const data = await response.json();
       
-      const mappedData = data.map(item => ({
-        id: item.id || Math.random().toString(),
-        type: (item.type || 'event').toLowerCase(),
-        title: item.title || 'Notification',
-        content: item.content || item.message || 'No content provided.',
-        timestamp: item.timestamp || item.createdAt || Date.now(),
-        isRead: item.isRead || false
+      // Handle the nested 'notifications' array and uppercase keys
+      const rawList = data.notifications || [];
+      const mappedData = rawList.map(item => ({
+        id: item.ID || Math.random().toString(),
+        type: (item.Type || 'event').toLowerCase(),
+        title: item.Type || 'Notification',
+        content: item.Message || 'No content provided.',
+        timestamp: new Date(item.Timestamp).getTime() || Date.now(),
+        isRead: false
       }));
 
       setNotifications(mappedData);
