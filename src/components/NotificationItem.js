@@ -16,7 +16,10 @@ const NotificationItem = ({ notification, onMarkRead }) => {
     <div className={`notification-card ${type} ${isRead ? 'read' : 'unread'}`}>
       <div className="card-top">
         <span className="notification-type">{type}</span>
-        <span className="notification-time">{formatTime(timestamp)}</span>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {!isRead && <span className="unread-badge">NEW</span>}
+          <span className="notification-time">{formatTime(timestamp)}</span>
+        </div>
       </div>
       <h3 className="notification-title">{title}</h3>
       <p className="notification-content">{content}</p>
