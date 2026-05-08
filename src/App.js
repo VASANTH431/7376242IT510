@@ -11,7 +11,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadMockData = React.useCallback(() => {
+  const loadMockData = useCallback(() => {
     const apiExamples = [
       { ID: "d146095a-0d86-4a34-9669-3900a14576bc", Type: "Result", Message: "mid-sem", Timestamp: "2026-04-22 17:51:30" },
       { ID: "b283218f-ea5a-4b7c-93a9-1f2f240d64b0", Type: "Placement", Message: "CSX Corporation hiring", Timestamp: "2026-04-22 17:51:18" },
@@ -37,7 +37,7 @@ function App() {
     setNotifications(mappedData);
   }, []);
 
-  const fetchNotifications = React.useCallback(async () => {
+  const fetchNotifications = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
