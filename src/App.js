@@ -102,24 +102,34 @@ function App() {
       <div className="App">
         <Navbar />
         
-        <header style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-          <select 
-            className="n-selector" 
-            value={n} 
-            onChange={(e) => setN(parseInt(e.target.value))}
-          >
-            <option value={5}>Top 5</option>
-            <option value={10}>Top 10</option>
-            <option value={15}>Top 15</option>
-            <option value={20}>Top 20</option>
-          </select>
-          <button className="btn btn-ghost" onClick={fetchNotifications} disabled={loading}>
-            {loading ? 'Refreshing...' : 'Refresh API'}
+        <div className="controls-bar" style={{ 
+          display: 'flex', 
+          justifyContent: 'flex-end', 
+          gap: '1rem', 
+          marginBottom: '2.5rem',
+          padding: '0 1rem'
+        }}>
+          <div className="selector-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: '500' }}>Show</span>
+            <select 
+              className="n-selector" 
+              value={n} 
+              onChange={(e) => setN(parseInt(e.target.value))}
+              style={{ border: '1px solid var(--line)', background: 'rgba(255, 255, 255, 0.05)' }}
+            >
+              <option value={5}>Top 5</option>
+              <option value={10}>Top 10</option>
+              <option value={15}>Top 15</option>
+              <option value={20}>Top 20</option>
+            </select>
+          </div>
+          <button className="btn btn-ghost" onClick={fetchNotifications} disabled={loading} style={{ borderRadius: '12px' }}>
+            {loading ? '...' : 'Refresh API'}
           </button>
-          <button className="btn" onClick={addRandomNotification}>
+          <button className="btn" onClick={addRandomNotification} style={{ borderRadius: '12px', boxShadow: '0 4px 12px rgba(201, 111, 58, 0.2)' }}>
             + Mock Alert
           </button>
-        </header>
+        </div>
 
         {error && <div className="error-banner" style={{ textAlign: 'center', color: '#a7542a', marginBottom: '1.5rem', fontWeight: '500' }}>{error}</div>}
 
