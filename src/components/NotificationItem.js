@@ -13,7 +13,7 @@ const NotificationItem = ({ notification, onMarkRead }) => {
   };
 
   return (
-    <div className={`notification-card ${type} ${isRead ? 'read' : ''}`}>
+    <div className={`notification-card ${type} ${isRead ? 'read' : 'unread'}`}>
       <div className="card-top">
         <span className="notification-type">{type}</span>
         <span className="notification-time">{formatTime(timestamp)}</span>
@@ -23,7 +23,7 @@ const NotificationItem = ({ notification, onMarkRead }) => {
       {!isRead && (
         <button 
           className="btn btn-ghost" 
-          style={{ marginTop: '1rem', padding: '0.3rem 0.6rem', fontSize: '0.8rem' }}
+          style={{ marginTop: '1rem', padding: '0.4rem 0.8rem', fontSize: '0.8rem', borderRadius: '8px' }}
           onClick={() => onMarkRead(notification.id)}
         >
           Mark as Read

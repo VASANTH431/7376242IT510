@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import PriorityInbox from './components/PriorityInbox';
-import NotificationItem from './components/NotificationItem';
+import Navbar from './components/Navbar';
+import PriorityPage from './pages/PriorityPage';
+import AllNotificationsPage from './pages/AllNotificationsPage';
 
 function App() {
   const [notifications, setNotifications] = useState([]);
@@ -96,10 +98,11 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header>
-        <h1>Campus Pulse</h1>
-        <div className="controls">
+    <Router>
+      <div className="App">
+        <Navbar />
+        
+        <header style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
           <select 
             className="n-selector" 
             value={n} 
@@ -111,43 +114,32 @@ function App() {
             <option value={20}>Top 20</option>
           </select>
           <button className="btn btn-ghost" onClick={fetchNotifications} disabled={loading}>
-            {loading ? 'Refreshing...' : 'Refresh'}
+            {loading ? 'Refreshing...' : 'Refresh API'}
           </button>
           <button className="btn" onClick={addRandomNotification}>
-            + New Alert
+            + Mock Alert
           </button>
-        </div>
-      </header>
+        </header>
 
-      {error && <div className="error-banner" style={{ textAlign: 'center', color: '#fb7185', marginBottom: '1rem' }}>{error}</div>}
+        {error && <div className="error-banner" style={{ textAlign: 'center', color: '#a7542a', marginBottom: '1.5rem', fontWeight: '500' }}>{error}</div>}
 
-      <main className="dashboard">
-        {/* Left Column: All Notifications */}
-        <div className="all-notifications">
-          <div className="section-header">
-            <h2 className="section-title">Recent Updates</h2>
-          </div>
-          <div className="notification-list">
-            {notifications.map(notif => (
-              <NotificationItem 
-                key={notif.id} 
-                notification={notif} 
-                onMarkRead={markAsRead} 
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Right Column: Priority Inbox */}
-        <div className="priority-section">
-          <PriorityInbox 
-            notifications={notifications} 
-            n={n} 
-            onMarkRead={markAsRead} 
-          />
-        </div>
-      </main>
-    </div>
+        <Routes>
+          <Route path="/" element={
+            <PriorityPage 
+              notifications={notifications} 
+              n={n} 
+              onMarkRead={markAsRead} 
+            />
+          } />
+          <Route path="/all" element={
+            <AllNotificationsPage 
+              notifications={notifications} 
+              onMarkRead={markAsRead} 
+            />
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
